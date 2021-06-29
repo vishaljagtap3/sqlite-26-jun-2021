@@ -19,7 +19,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        initDB();
+        //initDB();
+
+        var dbUtil = DBUtil(this)
+        dbUtil.addProduct(9090, "iPhone", 450000F)
+
+        /*
+        db = ProductsDBHelper(this, "db_products", null, 2).writableDatabase
+
         addProducts();
         populate();
         updateProducts()
@@ -28,10 +35,12 @@ class MainActivity : AppCompatActivity() {
         deleteProducts()
         mt("----------")
         populate()
+        */
+
     }
 
     private fun misc() {
-        var c : Cursor = db.rawQuery(
+        var c: Cursor = db.rawQuery(
             "select id, title, price from products where price > ? and price < ?",
             arrayOf("100000", "150000")
         )
@@ -44,10 +53,9 @@ class MainActivity : AppCompatActivity() {
             "id = ?",
             arrayOf("$id")
         )
-        if(count > 0) {
+        if (count > 0) {
             mt("deletion successful!")
-        }
-        else {
+        } else {
             mt("deletion failed!")
         }
 
@@ -66,10 +74,9 @@ class MainActivity : AppCompatActivity() {
             "id = ?",
             arrayOf("$id")
         )
-        if(count > 0) {
+        if (count > 0) {
             mt("Product updated!")
-        }
-        else {
+        } else {
             mt("Unable to update product!")
         }
     }
@@ -107,7 +114,7 @@ class MainActivity : AppCompatActivity() {
                 )
             )
         }
-        for(product in products) {
+        for (product in products) {
             mt(product.toString())
         }
 
@@ -128,10 +135,9 @@ class MainActivity : AppCompatActivity() {
             values
         )
 
-        if(rownum > -1) {
+        if (rownum > -1) {
             mt("Data inserted successfully!")
-        }
-        else {
+        } else {
             mt("Insertion failed!");
         }
 
@@ -164,7 +170,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun mt(text : String) {
+    private fun mt(text: String) {
         Log.e("tag", text)
     }
 
@@ -180,7 +186,8 @@ class MainActivity : AppCompatActivity() {
             db.execSQL(
                 "create table products (id integer primary key, title text, price integer)"
             )
-        } catch (e: Exception) {
+        }
+        catch (e: Exception) {
         }
 
         /*
